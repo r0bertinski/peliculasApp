@@ -10,20 +10,23 @@ import { Pelicula } from '../interfaces/interfaces';
 export class Tab1Page {
 
   novedades: Pelicula[] = [];
-  slideOpts = {
-    slidesPerView: 1.1,
-    freeMode: true
-  };
-  constructor( private MoviesCtrl: MoviesService) {}
+  populars:  Pelicula[] = [];
+  
+  constructor( private MoviesSrv: MoviesService) {}
 
 
   // tslint:disable-next-line:use-lifecycle-interface
   ngOnInit() {
-    this.MoviesCtrl.getFeature()
-                   .subscribe( resp => { 
+    this.MoviesSrv.getFeature()
+                   .subscribe( resp => {
                     this.novedades = resp.results;
-                    console.log('novedades', this.novedades[0] );
+                    console.log('novedades', this.novedades[0]);        
                    });
 
+    this.MoviesSrv.getPopulars()
+                   .subscribe( resp => {
+                     this.populars = resp.results;
+                     console.log('populars', this.populars);
+                   })
   }
 }
