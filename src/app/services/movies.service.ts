@@ -12,6 +12,7 @@ const URL = environment.url;
 })
 export class MoviesService {
 
+  private popularsPage = 0;
   constructor( private http: HttpClient) { }
 
   private executeQuery<T>( query: string ) {
@@ -21,7 +22,8 @@ export class MoviesService {
   }
 
   getPopulars() {
-    return this.executeQuery<RespuestaMDB>(`discover/movie?sort_by=popularity.desc`);
+    this.popularsPage++;
+    return this.executeQuery<RespuestaMDB>(`discover/movie?sort_by=popularity.desc&page${ this.popularsPage }`);
 
   }
   getFeature() {

@@ -17,16 +17,29 @@ export class Tab1Page {
 
   // tslint:disable-next-line:use-lifecycle-interface
   ngOnInit() {
+    this.getPopulars();
+  }
+
+  loadMore() {
+  this.getPopulars();
+  }
+
+  getPopulars() {
+
     this.MoviesSrv.getFeature()
-                   .subscribe( resp => {
+                  .subscribe( resp => {
                     this.novedades = resp.results;
                     console.log('novedades', this.novedades[0]);        
-                   });
+                  });
 
     this.MoviesSrv.getPopulars()
-                   .subscribe( resp => {
-                     this.populars = resp.results;
-                     console.log('populars', this.populars);
-                   })
+                  .subscribe( resp => {
+                
+                    // Agregando nuevos resultados sin borrar los anteriores.
+                    const tempArray = [ ...this.populars, ...resp.results];
+
+                    // Para que funcione el ascincrono hay que indicarle a angular que el arreglo cambio
+                    this.populars = tempArray;
+                  });
   }
 }
