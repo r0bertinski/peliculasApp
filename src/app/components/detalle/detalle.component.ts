@@ -38,13 +38,11 @@ export class DetalleComponent implements OnInit {
 
     this.moviesService.getMovieDetails( this.id )
                       .subscribe( resp => {
-                        console.log( resp );
                         this.movie = resp;
                       });
 
     this.moviesService.getMovieCredits( this.id )
                       .subscribe( resp => {
-                        console.log( resp );
                         this.casting = resp.cast;
                       });
   }
