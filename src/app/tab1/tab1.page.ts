@@ -29,12 +29,11 @@ export class Tab1Page {
     this.MoviesSrv.getFeature()
                   .subscribe( resp => {
                     this.novedades = resp.results;
-                    console.log('novedades', this.novedades[0]);        
+                    console.log('novedades', this.novedades[0]);
                   });
 
     this.MoviesSrv.getPopulars()
                   .subscribe( resp => {
-                
                     // Agregando nuevos resultados sin borrar los anteriores.
                     const tempArray = [ ...this.populars, ...resp.results];
 

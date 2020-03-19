@@ -1,5 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Pelicula } from '../../interfaces/interfaces';
+import { ModalController } from '@ionic/angular';
+import { DetalleComponent } from '../detalle/detalle.component';
 
 @Component({
   selector: 'app-slideshow-pares',
@@ -9,8 +11,8 @@ import { Pelicula } from '../../interfaces/interfaces';
 export class SlideshowParesComponent implements OnInit {
 
   // Recibir
-  @Input() pairsOfMovies: Pelicula[] = [];
-
+  @Input() movies: Pelicula[] = [];
+  
   // Emitir
   @Output() loadMore = new EventEmitter();
 
@@ -21,12 +23,26 @@ export class SlideshowParesComponent implements OnInit {
 
   };
 
-  constructor() { }
+  constructor( private modalCtl: ModalController ) { }
 
   ngOnInit() {}
 
   onClick() {
     this.loadMore.emit();
+  }
+
+
+  async seeDetails( id: string ) {
+
+    const modal = await this.modalCtl.create({
+      component: DetalleComponent,
+      componentProps: {
+       // id: id
+      // forma abreviada de ECmaScript6
+        id
+      }
+    });
+    modal.present();
   }
 
 }

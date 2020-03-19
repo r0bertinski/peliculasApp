@@ -5,19 +5,26 @@ import { SlideshowBackdropComponent } from './slideshow-backdrop/slideshow-backd
 import { SlideshowPosterComponent } from './slideshow-poster/slideshow-poster.component';
 import { PipesModule } from '../pipes/pipes.module';
 import { SlideshowParesComponent } from './slideshow-pares/slideshow-pares.component';
+import { DetalleComponent } from './detalle/detalle.component';
 
 
 
 @NgModule({
+  // Componentes que se pueden crear dinamicamente con angular.
+  entryComponents: [
+    DetalleComponent
+  ],
   declarations: [
     SlideshowBackdropComponent,
     SlideshowPosterComponent,
-    SlideshowParesComponent
+    SlideshowParesComponent,
+    DetalleComponent
   ],
   exports: [
     SlideshowBackdropComponent,
     SlideshowPosterComponent,
-    SlideshowParesComponent
+    SlideshowParesComponent,
+    DetalleComponent
   ],
   imports: [
     CommonModule,

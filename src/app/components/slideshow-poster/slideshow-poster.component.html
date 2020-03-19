@@ -1,7 +1,13 @@
-<ion-slides  [options]="slideOpts">
-  <ion-slide *ngFor="let movie of novedades">
-   <ion-card>
+<ion-slides  [options]="slideOpts" *ngIf="movies.length > 0">
+  <ion-slide *ngFor="let movie of movies">
+   <ion-card  mode="md" (click)="seeDetails( movie.id )">
+     <ion-card-header>total movies {{ movies.length }}</ion-card-header>
      <img class="poster" [src]="movie.poster_path | imagen">
    </ion-card>
   </ion-slide>
 </ion-slides>
+<ion-card *ngIf="movies.length == 0">
+  <ion-card-content>
+  <ion-card-title>No movies for this genre</ion-card-title>
+  </ion-card-content>
+</ion-card>

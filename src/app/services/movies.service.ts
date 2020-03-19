@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { RespuestaMDB } from '../interfaces/interfaces';
+import { RespuestaMDB, PeliculaDetalle, PeliculaCreditos } from '../interfaces/interfaces';
 import { environment } from '../../environments/environment';
+import { Genre } from '../interfaces/interfaces';
 
 const apiKey = environment.apiKey;
 const URL = environment.url;
@@ -13,12 +14,12 @@ const URL = environment.url;
 export class MoviesService {
 
   private popularsPage = 0;
+  genres: Genre[] = [];
+
   constructor( private http: HttpClient) { }
 
   private executeQuery<T>( query: string ) {
-    console.log(`${URL}/${query}&api_key=${apiKey}&language=es&include_image_language=es`);
     return this.http.get<T>(`${URL}/${query}&api_key=${apiKey}&language=es&include_image_language=es`);
-
   }
 
   getPopulars() {
@@ -31,15 +32,9 @@ export class MoviesService {
     //  current date and time
     const today = new Date();
 
-    console.log('today', today);
-
     // Get last day of the current month.
     const lastDay = new Date( today.getFullYear(), today.getMonth() - 1, 0).getDate();
-    console.log('lastDay', lastDay);
-
     const month = today.getMonth() + 1;
-
-    console.log('mes', month);
     let monthString;
 
     if ( month < 10) {
@@ -49,13 +44,44 @@ export class MoviesService {
     }
 
     const start = `${ today.getFullYear() }-${ monthString }-01`;
-    console.log('start', start);
-
     const end = `${ today.getFullYear() }-${ monthString }-${lastDay}`;
-    console.log('end', end);
-
 
     // tslint:disable-next-line:max-line-length
     return this.executeQuery<RespuestaMDB>(`discover/movie?primary_release_date.gte=${ start }&primary_release_date.lte=${ end }`);
+  }
+
+  getMovieDetails( id: string ) {
+    
+    //a = 1 es solo para que funcione al enviarla a executeQuery.
+    return this.executeQuery<PeliculaDetalle>(`movie/${id}?a=1`); 
+  }
+
+  getMovieCredits( id: string ) {
+    return this.executeQuery<PeliculaCreditos>(`movie/${id}/credits?a=1`);
+  }
+
+  getCastMovie( id: string ) {
+    return this.executeQuery<PeliculaCreditos>(`movie/${id}/credits?a=1`);
+
+  }
+
+  searchMovie( query: string ) {
+    return this.executeQuery<RespuestaMDB>(`search/movie?query=${query}`);
+  }
+
+  loadGenres(): Promise<Genre[]> {
+
+    return new Promise( resolve => {
+
+        this.executeQuery<Genre[]>(`genre/movie/list?a=1`)
+        .subscribe(  resp  => {
+          console.log( resp );
+
+          this.genres = resp['genres'];
+          resolve(this.genres);
+          // console.log( this.genres );
+        });
+
+      });
   }
 }

@@ -1,26 +1,26 @@
 
-
-<ion-content [fullscreen]="true">
+color="dark"
+<ion-content [fullscreen]="true" >
   <ion-grid fixed>
     <ion-row>
       <ion-col>Películas nuevas</ion-col>
     </ion-row>
   </ion-grid>
 
-  <app-slideshow-backdrop [novedades]="novedades"></app-slideshow-backdrop>
+  <app-slideshow-backdrop [movies]="novedades"></app-slideshow-backdrop>
 
   <ion-grid fixed>
     <ion-row>
       <ion-col>Posters</ion-col>
     </ion-row>
   </ion-grid>
-  <app-slideshow-poster   [novedades]="novedades"></app-slideshow-poster>
+  <app-slideshow-poster   [movies]="novedades"></app-slideshow-poster>
 
   <ion-grid fixed>
     <ion-row>
       <ion-col>Populares</ion-col>
     </ion-row>
   </ion-grid>
-  <app-slideshow-pares  [pairsOfMovies]="populars"
+  <app-slideshow-pares  [movies]="populars"
                         (loadMore)="loadMore()"></app-slideshow-pares>
 </ion-content>
